@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GestionMonetaria
 
-## Getting Started
+Aplicación web para la gestión financiera del hogar. Dashboard, control de gastos/ingresos,
+presupuestos, cuentas pendientes, suscripciones, ahorros y detección de gastos hormiga.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+| Capa         | Tecnología                                   |
+|-------------|----------------------------------------------|
+| Frontend    | Next.js 16, React 19, Bootstrap 5, Chart.js |
+| Backend     | Next.js (proxy.ts)                          |
+| Base datos  | PostgreSQL vía Supabase                      |
+| Auth        | Supabase Auth (email/password)              |
+| Storage     | Supabase Storage (recibos)                  |
+| Infra       | Docker (Supabase local), nginx, systemd     |
+
+## Arquitectura
+
+Hexagonal (puertos y adaptadores):
+
+```
+src/
+├── domain/          # Entidades y lógica de negocio
+├── application/     # Puertos (interfaces de repositorio)
+├── infrastructure/  # Adaptadores (Supabase, etc.)
+├── web/             # Componentes UI reutilizables
+└── app/             # Páginas Next.js (App Router)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Funcionalidades
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Dashboard** — resumen ingresos/gastos/balance, evolución mensual y diaria,
+  gráfico por categorías, métodos de pago, alertas de presupuesto, proyección
+  de gastos hormiga.
+- **Gastos** — registro, filtros por fecha/categoría, paginación, detección automática
+  de gastos hormiga.
+- **Ingresos** — registro y listado con totales.
+- **Presupuestos** — límites por categoría con seguimiento de porcentaje.
+- **Cuentas pendientes** — vencimientos y control de pago.
+- **Suscripciones** — control de pagos mensuales/anuales.
+- **Miembros** — invitación y gestión del hogar compartido.
+- **Ahorros** — meta de ahorro mensual con seguimiento visual.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Requisitos
 
-## Learn More
+- Docker + Docker Compose
+- Node.js 22+
+- Git
+- (Opcional) Dominio con DNS apuntando al servidor
 
-To learn more about Next.js, take a look at the following resources:
+## Desarrollo local
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# 1. Clonar
+git clone git@github.com:Gakuus/GestionMonetaria.git
+cd GestionMonetaria
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 2. Iniciar Supabase (Docker)
+cd supabase
+docker compose up -d
+cd ..
 
-## Deploy on Vercel
+# 3. Crear .env.local
+cp .env.example .env.local
+# Editar: NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54421
+# y NEXT_PUBLIC_SUPABASE_ANON_KEY con el anon key de Supabase
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 4. Instalar y correr
+npm install
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy a servidor
+
+```bash
+git clone git@github.com:Gakuus/GestionMonetaria.git
+cd GestionMonetaria
+cp deploy/.env.production.example deploy/.env.production
+# Editar deploy/.env.production con las keys de Supabase
+nano deploy/config.yml   # Poner dominio, repo, etc.
+sudo ./deploy/bootstrap.sh
+```
+
+Ver `deploy/` para documentación detallada de cada paso.
+
+## Variables de entorno
+
+| Variable | Descripción |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL de Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key pública de Supabase |
+| `NEXT_PUBLIC_APP_URL` | URL pública de la app |
+| `NEXT_PUBLIC_ANT_EXPENSE_THRESHOLD` | Monto mínimo para gasto hormiga |
+| `NEXT_PUBLIC_STORAGE_BUCKET_RECEIPTS` | Bucket de Storage |
+
+## Licencia
+
+MIT
