@@ -10,8 +10,8 @@ domain:
   ssl_email: "admin@tudominio.com"
 
 app:
-  # Git repository URL (public or private — SSH preferred)
-  repo_url: "https://github.com/tuusuario/gestion-monetaria.git"
+  # Git repository URL (SSH preferred)
+  repo_url: "git@github.com:Gakuus/GestionMonetaria.git"
   # Where to deploy the app on the server
   deploy_path: "/opt/gestion-monetaria"
   # Node.js major version
