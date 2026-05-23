@@ -32,6 +32,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# but allow the example template
+!.env.example
+
+# deploy secrets (copy .env.production.example → .env.production on server)
+/deploy/.env.production
 
 # vercel
 .vercel

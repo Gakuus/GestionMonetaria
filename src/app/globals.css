@@ -1,0 +1,40 @@
+/* Mobile touch targets */
+@media (max-width: 576px) {
+  .btn-responsive {
+    min-height: 36px;
+  }
+
+  .table td,
+  .table th {
+    white-space: nowrap;
+  }
+
+  .card-list-item {
+    padding: 12px !important;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
+/* Better scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Smooth transitions */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

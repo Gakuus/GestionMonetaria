@@ -1,0 +1,32 @@
+# ============================================================
+# GestionMonetaria — Server deployment configuration
+# Edit this file with YOUR values before running bootstrap.sh
+# ============================================================
+
+domain:
+  # Your domain (without protocol)
+  name: "tudominio.com"
+  # Email for Let's Encrypt SSL notifications
+  ssl_email: "admin@tudominio.com"
+
+app:
+  # Git repository URL (public or private — SSH preferred)
+  repo_url: "https://github.com/tuusuario/gestion-monetaria.git"
+  # Where to deploy the app on the server
+  deploy_path: "/opt/gestion-monetaria"
+  # Node.js major version
+  node_version: "22"
+  # Internal port for Next.js
+  port: 3000
+
+supabase:
+  # Local Supabase Docker — port mappings
+  api_port: 54421
+  db_port: 54422
+  studio_port: 54423
+  # Docker compose project name (used as container name prefix)
+  project_name: "gestion-monetaria"
+
+system:
+  # See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  timezone: "America/Argentina/Buenos_Aires"

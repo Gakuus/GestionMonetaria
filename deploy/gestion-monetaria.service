@@ -1,0 +1,33 @@
+# ============================================================
+# GestionMonetaria — systemd unit file
+# bootstrap.sh installs this as:
+#   /etc/systemd/system/gestion-monetaria.service
+# ============================================================
+
+[Unit]
+Description=GestionMonetaria Next.js
+After=network.target docker.service
+Wants=docker.service
+Documentation=https://github.com/tuusuario/gestion-monetaria
+
+[Service]
+Type=exec
+WorkingDirectory={{DEPLOY_PATH}}
+ExecStart={{NODE_BIN}} {{DEPLOY_PATH}}/node_modules/.bin/next start -p {{PORT}}
+Restart=always
+RestartSec=10
+User=www-data
+Group=www-data
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+# Environment
+Environment=NODE_ENV=production
+EnvironmentFile={{DEPLOY_PATH}}/.env.production
+
+[Install]
+WantedBy=multi-user.target
